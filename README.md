@@ -35,6 +35,13 @@ npx serve .
 
 ---
 
+# Backend
+
+El backend está en otro repositorio (requerido por el lab):
+
+https://github.com/Tiffany24630/Proyecto-1-Full-Stack.-Web-back-  
+---
+
 # Reflexión
 
 Usar JavaScript vanilla fue interesante porque obligó a entender cómo funciona realmente el DOM y las peticiones HTTP sin abstractions. Aunque frameworks como React serían más cómodos para proyectos grandes, para este proyecto fue útil para entender mejor los fundamentos.
