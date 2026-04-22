@@ -1,32 +1,39 @@
-const API = ""
+const API = "";
 
 async function loadSeries() {
     const q = document.getElementById("search").value;
-    const res = await fetch(`${API}/series?q=${q}`);
-    const data = await res.json();
+    try {
+        const res = await fetch(`${API}/series?q=${q}`);
+        
+        if (!res.ok) throw new Error("Error al cargar las series");
 
-    const list = document.getElementById("list");
-    list.innerHTML = "";
+        const data = await res.json();
+        const list = document.getElementById("list");
+        
+        list.innerHTML = "";
 
-    data.forEach(s => {
-        const percent = s.total ? (s.progress / s.total) * 100 : 0;
+        data.forEach(s => {
+            const percent = s.total ? (s.progress / s.total) * 100 : 0;
 
-        list.innerHTML += `
-        <div class="card">
-            <img src="${s.image}" width="100%">
-            <h3>${s.title}</h3>
-            <p>${s.progress} / ${s.total}</p>
+            list.innerHTML += `
+            <div class="card">
+                <img src="${s.image}" alt="${s.title}" style="width:100%">
+                <h3>${s.title}</h3>
+                <p>Progreso: ${s.progress} / ${s.total}</p>
 
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:${percent}%"></div>
-            </div>
+                <div class="progress-bar" style="background: #eee; width: 100%; height: 10px;">
+                    <div class="progress-fill" style="width:${percent}%; background: green; height: 10px;"></div>
+                </div>
 
-            <input type="number" id="p-${s.id}">
-            <button onclick="updateProgress(${s.id})">Actualizar</button>
-
-            <button onclick="deleteSeries(${s.id})">Eliminar</button>
-        </div>`;
-    });
+                <input type="number" id="p-${s.id}" placeholder="Nuevo progreso">
+                <button onclick="updateProgress(${s.id})">Actualizar</button>
+                <button onclick="deleteSeries(${s.id})" style="color: red;">Eliminar</button>
+            </div>`;
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        alert("No se pudo conectar con el servidor.");
+    }
 }
 
 async function addSeries() {
@@ -35,30 +42,51 @@ async function addSeries() {
     const total = document.getElementById("total").value;
     const image = document.getElementById("image").value;
 
-    await fetch(`${API}/series`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({title, type, total: Number(total), progress: 0, image})
-    });
+    try {
+        const res = await fetch(`${API}/series`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title, type, total: Number(total), progress: 0, image })
+        });
 
-    loadSeries();
+        if (res.ok) {
+            loadSeries();
+        }
+    } catch (error) {
+        console.error("Error al añadir:", error);
+    }
 }
 
 async function updateProgress(id) {
-    const progress = document.getElementById(`p-${id}`).value;
+    const progressInput = document.getElementById(`p-${id}`);
+    const progress = progressInput.value;
 
-    await fetch(`${API}/series/progress`, {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, progress: Number(progress)})
-    });
+    try {
+        const res = await fetch(`${API}/series/${id}`, {
+            method: "PATCH", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ progress: Number(progress) })
+        });
 
-    loadSeries();
+        if (res.ok) {
+            loadSeries();
+        } else {
+            alert("Error al actualizar el progreso");
+        }
+    } catch (error) {
+        console.error("Error al actualizar:", error);
+    }
 }
 
 async function deleteSeries(id) {
-    await fetch(`${API}/series/${id}`, {method: "DELETE"});
-    loadSeries();
+    if (!confirm("¿Seguro que quieres eliminar esta serie?")) return;
+
+    try {
+        const res = await fetch(`${API}/series/${id}`, { method: "DELETE" });
+        if (res.ok) loadSeries();
+    } catch (error) {
+        console.error("Error al eliminar:", error);
+    }
 }
 
 loadSeries();
