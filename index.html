@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anime & Manga Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Anime & Manga Tracker</h1>
+
+    <div class="form">
+        <input type="text" id="title" placeholder="Título">
+        
+        <select id="type">
+            <option value="anime">Anime</option>
+            <option value="manga">Manga</option>
+        </select>
+
+        <input type="number" id="total" placeholder="Total">
+        <input type="text" id="image" placeholder="URL imagen">
+
+        <button onclick="addSeries()">Agregar</button>
+    </div>
+
+    <div class="search">
+        <input type="text" id="search" placeholder="Buscar">
+        <button onclick="loadSeries()">Buscar</button>
+    </div>
+
+    <div id="list" class="grid"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
