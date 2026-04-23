@@ -13,44 +13,60 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
 }
 
+.search, .form {
+    margin: 20px;
+}
+
 input, select {
-    padding: 10px;
+    padding: 8px;
     margin: 5px;
 }
 
 button {
     background: var(--color-3);
     color: white;
-    padding: 10px;
+    padding: 8px 12px;
     border: none;
     cursor: pointer;
 }
 
-.grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+button:hover {
+    background: var(--color-1);
 }
 
-.card {
+/* TABLA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
     background: white;
-    padding: 15px;
-    margin: 10px;
-    width: 220px;
-    border-radius: 10px;
 }
 
-/* 🔥 PROGRESS BAR */
+th {
+    background: var(--color-3);
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+img {
+    width: 60px;
+    border-radius: 5px;
+}
+
 .progress-bar {
     width: 100%;
     background: #ddd;
     border-radius: 10px;
     overflow: hidden;
-    margin: 5px 0;
 }
 
 .progress-fill {
