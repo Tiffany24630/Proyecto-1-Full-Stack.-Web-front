@@ -1,4 +1,4 @@
-const API = "http://joelsiervas.online:8080";
+const API = "https://proyecto-1-full-stack-web-back.onrender.com";
 
 async function loadSeries() {
     const q = document.getElementById("search").value;
@@ -26,11 +26,11 @@ async function loadSeries() {
 
             <td>
                 <input type="number" id="p-${s.id}" style="width:60px;">
-                <button onclick="updateProgress(${s.id})">✔</button>
+                <button onclick="updateProgress(${s.id})">Update</button>
             </td>
 
             <td>
-                <button onclick="deleteSeries(${s.id})">❌</button>
+                <button onclick="deleteSeries(${s.id})">Delete</button>
             </td>
         </tr>
         `;
