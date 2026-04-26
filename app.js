@@ -5,6 +5,11 @@ async function loadSeries() {
     const res = await fetch(`${API}/series?q=${q}`);
     const data = await res.json();
 
+    if(!Array.isArray(data)) {
+        console.error(data);
+        return;
+    }
+
     const list = document.getElementById("list");
     list.innerHTML = "";
 
